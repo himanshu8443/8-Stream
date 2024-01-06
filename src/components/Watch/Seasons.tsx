@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useAppSelector, useAppDispatch } from "@/lib/hook";
-import { toggleEpModal } from "@/redux/slices/EpModal";
+import { toggleEpModal } from "@/redux/slices/epModal";
 import Image from "next/image";
 import { IoPlay } from "react-icons/io5";
 import { getAvailableEpisodes } from "@/lib/api";

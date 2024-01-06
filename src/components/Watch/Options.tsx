@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hook";
 import { setApi, setLang, setSeason } from "@/redux/slices/options";
 import play from "@/assets/play.svg";
 import Image from "next/image";
-import { toggleEpModal } from "@/redux/slices/EpModal";
+import { toggleEpModal } from "@/redux/slices/epModal";
 
 const Options = ({
   seasons,
