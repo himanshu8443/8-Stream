@@ -3,7 +3,8 @@ import Options from "@/components/Watch/Options";
 import Seasons from "@/components/Watch/Seasons";
 import Image from "next/image";
 import { Suspense } from "react";
-import { getEpisodes } from "@/lib/api";
+import { getEpisodes, getStreamUrl } from "@/lib/api";
+import Stream from "@/components/Player/Stream";
 
 async function getData(id: string, type: string) {
   try {
@@ -122,6 +123,12 @@ const page = async ({ params }: { params: { id: string; type: string } }) => {
             imdb: data.externalIds?.imdb_id,
           }}
           getEpisodes={getEpisodes}
+        />
+      </Suspense>
+      <Suspense fallback={<div></div>}>
+        <Stream
+          getStreamUrl={getStreamUrl}
+          imdbId={data.externalIds?.imdb_id}
         />
       </Suspense>
     </div>

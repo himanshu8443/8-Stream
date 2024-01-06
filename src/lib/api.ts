@@ -16,3 +16,17 @@ export async function getAvailableEpisodes(id: string, season: number) {
   const data = await response.json();
   return data;
 }
+
+// get stream url
+export async function getStreamUrl(
+  id: string,
+  episode: number,
+  lang: number,
+  season: number
+) {
+  const response = await fetch(
+    `https://hayasaka-stream.fr.to/api/v1/getStream?id=${id}&season=${season}&episode=${episode}&lang=${lang}`
+  );
+  const data = await response.json();
+  return data;
+}

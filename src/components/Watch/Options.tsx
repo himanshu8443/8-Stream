@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hook";
 import { setApi, setLang, setSeason } from "@/redux/slices/options";
 import play from "@/assets/play.svg";
 import Image from "next/image";
-import { toggleEpModal } from "@/redux/slices/epModal";
+import { toggleEpModal, togglePlayer } from "@/redux/slices/epModal";
 
 const Options = ({
   seasons,
@@ -112,7 +112,8 @@ const Options = ({
         px-3 py-0 bg-opacity-20 hover:scale-105 duration-200 backdrop-blur-sm"
           style={!epModal ? {} : { opacity: 0 }}
           onClick={() => {
-            dispatch(toggleEpModal(true));
+            if (type === "tv") dispatch(toggleEpModal(true));
+            if (type === "movie") dispatch(togglePlayer(true));
           }}
         >
           <p className="text-white text-4xl font-extrabold">Play</p>
