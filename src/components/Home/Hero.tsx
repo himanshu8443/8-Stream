@@ -25,11 +25,11 @@ const Hero = async ({ hero }: { hero: any }) => {
       <Image
         className="object-cover w-full h-[500px] lg:h-[600px]"
         src={`https://image.tmdb.org/t/p/original${
-          data.hero?.backdrops[
-            Math.floor(Math.random() * data.hero?.backdrops.length)
+          data.hero?.backdrops?.[
+            Math.floor(Math.random() * data.hero?.backdrops?.length || 0)
           ]?.file_path
         }`}
-        alt={hero?.title}
+        alt={"hero"}
         width={1920}
         height={1080}
       />
@@ -39,11 +39,11 @@ const Hero = async ({ hero }: { hero: any }) => {
       <div>
         <div className="absolute top-0 left-0 w-full h-full flex justify-start items-center">
           <div className="ml-12 ">
-            {data.hero?.logos.length > 0 ? (
+            {data.hero?.logos?.length > 0 ? (
               <Image
                 className="object-contain w-[200px] h-[200px] lg:w-[300px] lg:h-[300px]"
                 src={`https://image.tmdb.org/t/p/original${data.hero?.logos[0]?.file_path}`}
-                alt={hero?.title}
+                alt={"hero"}
                 width={1920}
                 height={1080}
               />

@@ -1,7 +1,9 @@
+import GetMedia from "@/components/Watch/GetMedia";
 import Options from "@/components/Watch/Options";
 import Seasons from "@/components/Watch/Seasons";
 import Image from "next/image";
 import { Suspense } from "react";
+import { getEpisodes } from "@/lib/api";
 
 async function getData(id: string, type: string) {
   try {
@@ -35,12 +37,12 @@ async function getData(id: string, type: string) {
 const page = async ({ params }: { params: { id: string; type: string } }) => {
   const data = await getData(params.id, params.type);
   return (
-    <div>
+    <div className="h-screen overflow-hidden">
       <div className="relative flex justify-start items-center w-full h-[500px] lg:h-[700px]">
         <Image
           src={`https://image.tmdb.org/t/p/original${
-            data?.images?.backdrops[
-              Math.floor(Math.random() * data.images?.backdrops.length)
+            data?.images?.backdrops?.[
+              Math.floor(Math.random() * (data.images?.backdrops?.length || 0))
             ]?.file_path
           }`}
           alt={data.details?.title}
@@ -106,13 +108,22 @@ const page = async ({ params }: { params: { id: string; type: string } }) => {
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black to-transparent"></div>
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-black to-transparent"></div>
       </div>
-      <Options
-        ids={{
-          tmdb: params.id,
-          imdb: data.externalIds?.imdb_id,
-        }}
-        seasons={data.details?.seasons}
-      />
+      <Suspense fallback={<div>Loading...</div>}>
+        <GetMedia
+          type={params.type}
+          ids={{ tmdb: params.id, imdb: data.externalIds?.imdb_id }}
+          tmdbSeasons={data.details?.seasons}
+        />
+      </Suspense>
+      <Suspense fallback={<div></div>}>
+        <Seasons
+          id={{
+            tmdb: params.id,
+            imdb: data.externalIds?.imdb_id,
+          }}
+          getEpisodes={getEpisodes}
+        />
+      </Suspense>
     </div>
   );
 };

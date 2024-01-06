@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 const Card = ({ media }: { media: any }) => {
@@ -14,10 +15,12 @@ const Card = ({ media }: { media: any }) => {
               18+
             </div>
           )}
-          <img
+          <Image
+            width={300}
+            height={450}
             src={`https://image.tmdb.org/t/p/w300${media?.poster_path}`}
-            alt={media?.title}
-            className="rounded-lg max-w-[170px] h-auto object-cover group-hover:scale-105 transition-all duration-200"
+            alt={"poster"}
+            className="rounded-lg max-w-[170px] h-[250px] object-cover group-hover:scale-105 transition-all duration-200"
           />
           <div className="absolute items-center bottom-2 left-1 z-20 flex group-hover:scale-100 gap-1 scale-0 transition-all duration-200 origin-left">
             <p className="bg-green-700 rounded-full px-2 py-1 text-xs text-white font-medium">
@@ -34,6 +37,9 @@ const Card = ({ media }: { media: any }) => {
             {media?.title?.length > 30
               ? media?.title.slice(0, 30) + "..."
               : media?.title}
+            {media?.name?.length > 30
+              ? media?.name.slice(0, 30) + "..."
+              : media?.name}
           </p>
         </div>
       </div>

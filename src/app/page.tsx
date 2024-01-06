@@ -41,8 +41,8 @@ async function getData() {
 export default async function Page() {
   const data = await getData();
   const hero =
-    data.tendingMovies?.results[
-      Math.floor(Math.random() * data.tendingMovies?.results.length)
+    data.tendingMovies?.results?.[
+      Math.floor(Math.random() * data.tendingMovies?.results?.length || 0)
     ];
   return (
     <main>
