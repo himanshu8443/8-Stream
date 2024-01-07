@@ -57,7 +57,10 @@ const Seasons = async ({
           ?.slice(0, availableEpisodes)
           ?.map((episode: any, i: number) => {
             return (
-              <div className="flex bg-white bg-opacity-10 backdrop-blur-md rounded-lg justify-start items-center gap-3 p-2 cursor-pointer hover:bg-opacity-20 bg group">
+              <div
+                key={episode?.episode_number}
+                className="flex bg-white bg-opacity-10 backdrop-blur-md rounded-lg justify-start items-center gap-3 p-2 cursor-pointer hover:bg-opacity-20 bg group"
+              >
                 <div
                   className="relative"
                   onClick={() => {

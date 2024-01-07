@@ -11,7 +11,7 @@ export async function getEpisodes(id: string, season: number) {
 // get available episodes
 export async function getAvailableEpisodes(id: string, season: number) {
   const response = await fetch(
-    `https://hayasaka-stream.fr.to/api/v1/getEpisodes?id=${id}&season=${season}&lang=1`
+    `${process.env.STREAM_API}/getEpisodes?id=${id}&season=${season}&lang=1`
   );
   const data = await response.json();
   return data;
@@ -25,7 +25,7 @@ export async function getStreamUrl(
   season: number
 ) {
   const response = await fetch(
-    `https://hayasaka-stream.fr.to/api/v1/getStream?id=${id}&season=${season}&episode=${episode}&lang=${lang}`
+    `${process.env.STREAM_API}/getStream?id=${id}&season=${season}&episode=${episode}&lang=${lang}`
   );
   const data = await response.json();
   return data;

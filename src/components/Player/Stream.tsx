@@ -41,22 +41,33 @@ const Stream = ({
   return (
     isPlayer && (
       <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center">
-        <div className="w-[80%] h-[80%] rounded-lg" id="player-container">
+        <div className="w-[90%] h-[90%] rounded-lg" id="player-container">
           {url?.length > 0 ? (
             <Artplayer
               artRef={ref}
-              style={{ width: "100%", height: "100%" }}
+              style={{ width: "100%", height: "100%", aspectRatio: "16/9" }}
               option={{
                 container: "#player-container",
                 url: url,
                 theme: "#fcba03",
                 autoSize: true,
                 playbackRate: true,
-                setting: true,
+                fullscreen: true,
+                lock: true,
+                fastForward: true,
+                cssVar: {
+                  "--art-indicator-scale": 1.5,
+                  "--art-indicator-size": "15px",
+                  "--art-bottom-gap": "25px",
+                  "--art-control-icon-scale": 1.7,
+                  "--art-padding": "10px 30px",
+                  "--art-control-icon-size": "60px",
+                  "--art-volume-handle-size": "20px",
+                  "--art-volume-height": "150px",
+                },
               }}
               getInstance={(art: any) => {
                 setArt(art);
-                console.log("art", art.destroy);
               }}
             />
           ) : (
@@ -69,7 +80,7 @@ const Stream = ({
           className="absolute top-0 right-0 m-5 cursor-pointer"
           onClick={() => {
             art?.destroy();
-            art.hls?.destroy();
+            art?.hls?.destroy();
             dispatch(togglePlayer(false));
           }}
         >
