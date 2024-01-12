@@ -25,11 +25,7 @@ const GetMedia = async ({
   type: string;
 }) => {
   const mediaInfo = await getMediaInfo(ids?.imdb);
-  return (
-    <div>
-      <Options seasons={tmdbSeasons} mediaInfo={mediaInfo} type={type} />
-    </div>
-  );
+  return <div></div>;
 };
 
 export default GetMedia;

@@ -74,11 +74,21 @@ export default function Player({
           control: true,
 
           // Get the resolution text from level
-          getResolution: (level) => level.height + "P",
-
-          // I18n
-          title: "Quality",
-          auto: "Auto",
+          getResolution: (level) => {
+            if (level.height <= 240) {
+              return "240P";
+            } else if (level.height > 240 && level.height <= 360) {
+              return "360P";
+            } else if (level.height > 360 && level.height <= 480) {
+              return "480P";
+            } else if (level.height > 480 && level.height <= 720) {
+              return "720P";
+            } else if (level.height > 720 && level.height <= 1080) {
+              return "1080P";
+            } else {
+              return level.height + "P";
+            }
+          },
         }),
       ],
       customType: {
@@ -98,7 +108,9 @@ export default function Player({
         },
       },
     });
-
+    art.on("ready", () => {
+      art.play();
+    });
     if (getInstance && typeof getInstance === "function") {
       getInstance(art);
     }
@@ -124,7 +136,9 @@ export default function Player({
       name: "volume",
       position: "right",
     });
-
+    art.on("ready", () => {
+      console.log("ready", option.url);
+    });
     return () => {
       if (art && art.destroy) {
         art.destroy(false);

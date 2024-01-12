@@ -1,10 +1,11 @@
-import GetMedia from "@/components/Watch/GetMedia";
 import Options from "@/components/Watch/Options";
 import Seasons from "@/components/Watch/Seasons";
 import Image from "next/image";
 import { Suspense } from "react";
 import { getEpisodes, getStreamUrl } from "@/lib/api";
 import Stream from "@/components/Player/Stream";
+import PlayButton from "@/components/Watch/PlayButton";
+import { getSeasonList } from "@/lib/api";
 
 async function getData(id: string, type: string) {
   try {
@@ -39,19 +40,23 @@ const page = async ({ params }: { params: { id: string; type: string } }) => {
   const data = await getData(params.id, params.type);
   return (
     <div className="h-screen overflow-hidden">
-      <div className="relative flex justify-start items-center w-full h-[500px] lg:h-[700px]">
-        <Image
-          src={`https://image.tmdb.org/t/p/original${
-            data?.images?.backdrops?.[
-              Math.floor(Math.random() * (data.images?.backdrops?.length || 0))
-            ]?.file_path
-          }`}
-          alt={data.details?.title}
-          width={1920}
-          height={1080}
-          className="object-cover w-full h-[500px] lg:h-[700px] absolute top-0 left-0"
-        />
-        <div className="absolute top-0 flex flex-col gap-3 z-20 ml-8">
+      <Image
+        priority={true}
+        src={`https://image.tmdb.org/t/p/original${
+          data?.images?.backdrops?.[
+            Math.floor(Math.random() * (data.images?.backdrops?.length || 0))
+          ]?.file_path
+        }`}
+        alt={data.details?.title}
+        width={1920}
+        height={1080}
+        className="object-cover w-full h-[500px] lg:h-[700px] absolute top-0 left-0"
+      />
+      {/* left right and bottom to top  */}
+      <div className="absolute top-0 left-0 w-full h-[700px] bg-gradient-to-t from-black to-transparent"></div>
+      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-black to-transparent"></div>
+      <div className=" flex justify-start items-center w-full h-[500px] lg:h-full">
+        <div className=" top-0 flex flex-col justify-start gap-10 z-20 ml-8 h-full">
           {data?.images?.logos?.length > 0 ? (
             <Image
               src={`https://image.tmdb.org/t/p/original${data.images?.logos[0]?.file_path}`}
@@ -104,31 +109,31 @@ const page = async ({ params }: { params: { id: string; type: string } }) => {
               );
             })}
           </div>
+          <Options />
         </div>
-        {/* left right and bottom to top  */}
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black to-transparent"></div>
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-black to-transparent"></div>
+        <div className="flex flex-col justify-end items-end flex-1 h-[500px] z-20 mr-20">
+          <PlayButton
+            getSeasonList={getSeasonList}
+            imdbId={data?.externalIds?.imdb_id}
+            tmdbId={params.id}
+            type={params.type}
+          />
+        </div>
       </div>
-      <Suspense fallback={<div>Loading...</div>}>
-        <GetMedia
-          type={params.type}
-          ids={{ tmdb: params.id, imdb: data.externalIds?.imdb_id }}
-          tmdbSeasons={data.details?.seasons}
-        />
-      </Suspense>
-      <Suspense fallback={<div></div>}>
+      <Suspense
+        fallback={
+          <div className="fixed inset-0 flex justify-center items-center">
+            <span className="loader"></span>
+          </div>
+        }
+      >
         <Seasons
           id={{
             tmdb: params.id,
             imdb: data.externalIds?.imdb_id,
           }}
           getEpisodes={getEpisodes}
-        />
-      </Suspense>
-      <Suspense fallback={<div></div>}>
-        <Stream
-          getStreamUrl={getStreamUrl}
-          imdbId={data.externalIds?.imdb_id}
+          type={params.type}
         />
       </Suspense>
     </div>
