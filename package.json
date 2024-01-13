@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.0.1",
-    "@types/redux-persist": "^4.3.1",
     "artplayer": "^5.1.0",
     "artplayer-plugin-hls-quality": "^2.0.0",
     "hls.js": "^1.4.14",
@@ -19,11 +18,8 @@
     "react-dom": "^18",
     "react-icons": "^4.12.0",
     "react-redux": "^9.0.4",
-    "redux-persist": "^6.0.0",
     "sharp": "^0.33.2",
-    "swiper": "^11.0.5",
-    "swr": "^2.2.4",
-    "update": "^0.7.4"
+    "swiper": "^11.0.5"
   },
   "devDependencies": {
     "@types/node": "^20",
