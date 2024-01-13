@@ -120,7 +120,6 @@ export async function playEpisode(
 
 // get season and episode and lang list
 export async function getSeasonList(id: string) {
-  console.log("id", id);
   try {
     const response = await fetch(
       `${process.env.STREAM_API}/getSeasonList?id=${id}`

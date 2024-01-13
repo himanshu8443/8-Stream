@@ -4,11 +4,6 @@ import { type Option } from "artplayer/types/option";
 import artplayerPluginHlsQuality from "artplayer-plugin-hls-quality";
 import Hls from "hls.js";
 
-type Selector = {
-  default?: boolean;
-  html: string;
-  value: number;
-};
 export default function Player({
   option,
   getInstance,
@@ -24,50 +19,6 @@ export default function Player({
     const art = new Artplayer({
       ...option,
       container: artRef.current!,
-      controls: [
-        {
-          name: "playbackRate",
-          position: "left",
-          width: 400,
-          index: 100,
-          html: '<p style="font-size: 20px; font-weight: bold">1.0x</p>',
-          selector: [
-            {
-              default: true,
-              html: '<p style="font-size: 20px; font-weight: bold">1.0x</p>',
-              // @ts-ignore
-              value: 1,
-            },
-            {
-              html: '<p style="font-size: 20px; font-weight: bold">1.25x</p>',
-              // @ts-ignore
-              value: 1.25,
-            },
-            {
-              html: '<p style="font-size: 20px; font-weight: bold">1.50x</p>',
-              // @ts-ignore
-              value: 1.5,
-            },
-            {
-              html: '<p style="font-size: 20px; font-weight: bold">1.75x</p>',
-              // @ts-ignore
-              value: 1.75,
-            },
-            {
-              html: '<p style="font-size: 20px; font-weight: bold">2.0x</p>',
-              // @ts-ignore
-              value: 2,
-            },
-          ],
-          onSelect: function (item, $dom) {
-            // @ts-ignore
-            art.playbackRate = item.value;
-            // @ts-ignore
-            console.log(item.value);
-            return item.html;
-          },
-        },
-      ],
       plugins: [
         artplayerPluginHlsQuality({
           // Show quality in control
@@ -131,13 +82,16 @@ export default function Player({
     });
 
     art.controls.remove("playAndPause");
-    console.log("ready", art.controls);
     art.controls.update({
       name: "volume",
       position: "right",
     });
-    art.on("ready", () => {
-      console.log("ready", option.url);
+    console.log("controls", art.controls);
+    art.controls.update({
+      name: "time",
+      style: {
+        left: "300px",
+      },
     });
     return () => {
       if (art && art.destroy) {

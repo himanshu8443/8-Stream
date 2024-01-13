@@ -28,8 +28,8 @@ const Slider = ({
       <Swiper
         modules={[Navigation, FreeMode, Mousewheel, Keyboard, Virtual]}
         breakpoints={{
-          300: { slidesPerView: 3.1, spaceBetween: 5 },
-          640: { slidesPerView: 7.2, spaceBetween: 5 },
+          300: { slidesPerView: 4, spaceBetween: 3 },
+          640: { slidesPerView: 5.3, spaceBetween: 3 },
           1024: { slidesPerView: 8.2, spaceBetween: 5 },
         }}
         navigation={{

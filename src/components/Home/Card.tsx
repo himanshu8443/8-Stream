@@ -20,10 +20,10 @@ const Card = ({ media }: { media: any }) => {
             height={450}
             src={`https://image.tmdb.org/t/p/w300${media?.poster_path}`}
             alt={"poster"}
-            className="rounded-lg max-w-[170px] h-[250px] object-cover group-hover:scale-105 transition-all duration-200"
+            className="rounded-lg max-w-[170px] w-auto h-[150px] sm:h-[200px] lg:h-[250px] object-cover group-hover:scale-105 transition-all duration-200"
           />
           <div className="absolute items-center bottom-2 left-1 z-20 flex group-hover:scale-100 gap-1 scale-0 transition-all duration-200 origin-left">
-            <p className="bg-green-700 rounded-full px-2 py-1 text-xs text-white font-medium">
+            <p className="bg-[#F9CC0B] text-[#02040A] rounded-full px-2 py-1 text-xs  font-medium">
               TMDB
             </p>
             <p className=" rounded-full px-2 py-1 text-sm text-white font-semibold">
@@ -33,7 +33,7 @@ const Card = ({ media }: { media: any }) => {
           <div className="absolute -bottom-[.5px] left-0 w-full max-w-[170px] h-[250px] rounded-lg bg-gradient-to-b from-transparent to-black opacity-80 hidden group-hover:block group-hover:scale-105"></div>
         </div>
         <div className="flex justify-center items-center w-[90%]">
-          <p className="text-white text-sm mt-2 text-center font-medium ">
+          <p className="text-white text-xs sm:text-sm mt-2 text-center font-medium ">
             {media?.title?.length > 30
               ? media?.title.slice(0, 30) + "..."
               : media?.title}

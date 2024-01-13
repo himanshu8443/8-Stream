@@ -1,9 +1,13 @@
 import Image from "next/image";
+import Link from "next/link";
 
 async function getData(heroId: string) {
   try {
     const resHero = await fetch(
-      `https://api.themoviedb.org/3/movie/${heroId}/images?api_key=${process.env.TMDB_KEY}&language=en-US&include_image_language=en,null`
+      `https://api.themoviedb.org/3/movie/${heroId}/images?api_key=${process.env.TMDB_KEY}&language=en-US&include_image_language=en,null`,
+      {
+        next: { revalidate: 300 },
+      }
     );
     const hero = await resHero.json();
     return {
@@ -52,7 +56,7 @@ const Hero = async ({ hero }: { hero: any }) => {
                 {hero?.title}
               </h1>
             )}
-            <p className="text-white text-sm lg:text-base font-medium max-w-[500px] relative bottom-6">
+            <p className="text-white text-sm lg:text-base font-medium max-w-[500px] relative lg:bottom-6">
               {hero?.overview?.length > 150
                 ? hero?.overview?.slice(0, 150) + "..."
                 : hero?.overview}
@@ -61,9 +65,11 @@ const Hero = async ({ hero }: { hero: any }) => {
               <button className="bg-gray-800 text-white px-4 py-2 rounded-md font-semibold">
                 TMDB {hero?.vote_average.toFixed(1)}
               </button>
-              <button className="bg-white text-black px-4 py-2 rounded-md font-semibold">
-                Watch
-              </button>
+              <Link href={`/watch/movie/${hero?.id}`}>
+                <button className="bg-white text-black px-4 py-2 rounded-md font-semibold">
+                  Watch
+                </button>
+              </Link>
             </div>
           </div>
         </div>

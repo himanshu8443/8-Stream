@@ -6,6 +6,7 @@ import { CgClose } from "react-icons/cg";
 import { togglePlayer } from "@/redux/slices/epModal";
 import { playEpisode, playMovie } from "@/lib/api";
 import { useSearchParams, useRouter } from "next/navigation";
+import { setLang } from "@/redux/slices/options";
 
 const Stream = ({
   params,
@@ -21,36 +22,41 @@ const Stream = ({
   const ref = React.useRef<any>();
   const [art, setArt] = React.useState<any>();
   const opt = useAppSelector((state) => state.options);
+  const seasonInfo = useAppSelector((state) => state.options.seasonInfo);
+  console.log(seasonInfo);
   useEffect(() => {
     async function getStream() {
       if (params.type === "movie") {
-        const data = await playMovie(params.imdb, "Hindi");
+        const data = await playMovie(params.imdb, opt.lang);
         console.log(data);
         if (data?.success && data?.data?.link?.length > 0) {
+          art?.switchUrl(data?.data?.link);
           setUrl(data?.data?.link);
         } else {
-          dispatch(togglePlayer(false));
+          router.back();
         }
       } else {
         const data = await playEpisode(
           params.imdb,
           parseInt(season as string),
           parseInt(episode as string),
-          "Hindi"
+          opt.lang
         );
         console.log(data);
         if (data?.success && data?.data?.link?.length > 0) {
           setUrl(data?.data?.link);
+          console.log("art", art?.switchUrl);
+          art?.switchUrl(data?.data?.link);
+          console.log("art", art?.playbackRate);
         } else {
           dispatch(togglePlayer(false));
         }
       }
     }
     getStream();
-    console.log("search params ", searchParams.get("season"));
-  }, []);
+  }, [opt.lang]);
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center">
+    <div className="fixed inset-0 flex justify-center items-end">
       <div className="w-[90%] h-[90%] rounded-lg" id="player-container">
         {url?.length > 0 ? (
           <Artplayer
@@ -59,8 +65,30 @@ const Stream = ({
             option={{
               container: "#player-container",
               url: url,
+              setting: true,
               theme: "#fcba03",
-
+              controls: [
+                {
+                  name: "Lang",
+                  position: "right",
+                  index: 5,
+                  html: `<p >${opt.lang}</p>`,
+                  selector: [
+                    ...seasonInfo[0]?.lang?.map((item: any, i: number) => {
+                      return {
+                        default: i === 0,
+                        html: `<p ">${item}</p>`,
+                        value: item,
+                      };
+                    }),
+                  ],
+                  onSelect: function (item, $dom) {
+                    // @ts-ignore
+                    dispatch(setLang(item.value));
+                    return item.html;
+                  },
+                },
+              ],
               playbackRate: true,
               fullscreen: true,
               lock: true,

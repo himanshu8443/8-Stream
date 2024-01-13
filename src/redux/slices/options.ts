@@ -9,7 +9,7 @@ const initialState: {
   season: 1,
   api: "8stream",
   lang: "",
-  seasonInfo: [],
+  seasonInfo: [{}, {}],
 };
 const optionsSlice = createSlice({
   name: "options",

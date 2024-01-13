@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useAppSelector, useAppDispatch } from "@/lib/hook";
-import { toggleEpModal, togglePlayer } from "@/redux/slices/epModal";
+import { toggleEpModal } from "@/redux/slices/epModal";
 import Image from "next/image";
 import { IoPlay } from "react-icons/io5";
 import { setLang, setSeason } from "@/redux/slices/options";
@@ -22,6 +22,7 @@ const Seasons = ({
 }) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const opt = useAppSelector((state) => state.options);
   const season = useAppSelector((state) => state.options.season);
   const epModal = useAppSelector((state) => state.epModal.epModal);
   const [episodes, setEpisodes] = useState<any>([]);
@@ -51,6 +52,7 @@ const Seasons = ({
             {/* seasons */}
             <select
               className="bg-white/20 backdrop-blur-lg rounded-lg px-2 py-1 text-sm text-white font-medium styled-select outline-none"
+              value={opt.season}
               onChange={(e) => dispatch(setSeason(e.target.value))}
             >
               {seasonInfo?.map((item: any, i: number) => {
@@ -66,8 +68,9 @@ const Seasons = ({
               })}
             </select>
             {/* lang */}
-            <select
+            {/* <select
               className="bg-white/20 backdrop-blur-lg rounded-lg px-2 py-1 text-sm text-white font-medium styled-select outline-none"
+              value={opt.lang}
               onChange={(e) => dispatch(setLang(e.target.value))}
             >
               {seasonInfo[0]?.lang.map((lang: any, i: number) => {
@@ -81,7 +84,7 @@ const Seasons = ({
                   </option>
                 );
               })}
-            </select>
+            </select> */}
           </div>
           {episodes
             ?.slice(0, seasonInfo?.[season - 1]?.totalEpisodes || 9999)
