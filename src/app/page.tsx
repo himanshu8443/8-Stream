@@ -46,7 +46,7 @@ export default async function Page() {
     ];
   return (
     <main>
-      <Hero hero={hero} />
+      {/* <Hero hero={hero} /> */}
       <Catalogue data={data} />
     </main>
   );

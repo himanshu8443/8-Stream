@@ -4,10 +4,7 @@ import Link from "next/link";
 async function getData(heroId: string) {
   try {
     const resHero = await fetch(
-      `https://api.themoviedb.org/3/movie/${heroId}/images?api_key=${process.env.TMDB_KEY}&language=en-US&include_image_language=en,null`,
-      {
-        cache: "no-cache",
-      }
+      `https://api.themoviedb.org/3/movie/${heroId}/images?api_key=${process.env.TMDB_KEY}&language=en-US&include_image_language=en,null`
     );
     const hero = await resHero.json();
     return {
