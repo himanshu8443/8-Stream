@@ -7,9 +7,9 @@ const page = async ({
 }) => {
   return (
     <div>
-      {/* <Suspense fallback={<div></div>}>
+      <Suspense fallback={<div></div>}>
         <Stream params={params} />
-      </Suspense> */}
+      </Suspense>
     </div>
   );
 };
