@@ -1,6 +1,6 @@
 "use client";
-import { useAppDispatch, useAppSelector } from "@/lib/hook";
-import { setApi, setLang, setSeason } from "@/redux/slices/options";
+import { useAppDispatch } from "@/lib/hook";
+import { setApi } from "@/redux/slices/options";
 
 const Options = () => {
   const dispatch = useAppDispatch();

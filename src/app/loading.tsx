@@ -2,8 +2,8 @@ import React from "react";
 
 const loading = () => {
   return (
-    <div className="flex justify-center items-center h-screen">
-      <span className="pageLoader">8 Stream</span>
+    <div className="flex justify-center items-center h-screen w-screen overflow-hidden">
+      <span className="pageLoader font-semibold">8 Stream</span>
     </div>
   );
 };

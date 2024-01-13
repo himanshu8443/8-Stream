@@ -5,7 +5,7 @@ import { useAppSelector, useAppDispatch } from "@/lib/hook";
 import { toggleEpModal } from "@/redux/slices/epModal";
 import Image from "next/image";
 import { IoPlay } from "react-icons/io5";
-import { setLang, setSeason } from "@/redux/slices/options";
+import { setSeason } from "@/redux/slices/options";
 import { useRouter } from "next/navigation";
 
 const Seasons = ({
