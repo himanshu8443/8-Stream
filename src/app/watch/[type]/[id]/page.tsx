@@ -123,7 +123,8 @@ const page = async ({ params }: { params: { id: string; type: string } }) => {
           />
         </div>
       </div>
-      <Suspense
+      {/* Seasons */}
+      {/* <Suspense
         fallback={
           <div className="fixed inset-0 flex justify-center items-center">
             <span className="loader"></span>
@@ -138,7 +139,7 @@ const page = async ({ params }: { params: { id: string; type: string } }) => {
           getEpisodes={getEpisodes}
           type={params.type}
         />
-      </Suspense>
+      </Suspense> */}
     </div>
   );
 };
