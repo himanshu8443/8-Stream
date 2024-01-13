@@ -115,12 +115,12 @@ const page = async ({ params }: { params: { id: string; type: string } }) => {
           <Options />
         </div>
         <div className="flex flex-col justify-end items-end flex-1 h-[500px] z-20 mr-20">
-          <PlayButton
+          {/* <PlayButton
             getSeasonList={getSeasonList}
             imdbId={data?.externalIds?.imdb_id}
             tmdbId={params.id}
             type={params.type}
-          />
+          /> */}
         </div>
       </div>
       {/* Seasons */}
