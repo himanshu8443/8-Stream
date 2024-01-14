@@ -4,7 +4,7 @@ import Link from "next/link";
 const Card = ({ media }: { media: any }) => {
   return (
     <Link
-      href={`/watch/${media?.media_type ? media.media_type : "tv"}/${
+      href={`/watch/${media?.media_type ? media.media_type : "movie"}/${
         media?.id
       }`}
     >

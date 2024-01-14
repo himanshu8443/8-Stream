@@ -44,6 +44,7 @@ select {
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: #5c5b5b;
+  border-radius: 4px;
 }
 
 /* Handle on hover */

@@ -49,7 +49,7 @@ const Catalogue = ({
       </Slider>
 
       {/* Discover TV */}
-      <Slider title="Discover TV">
+      {/* <Slider title="Discover TV">
         {data.DiscoverTv?.results?.map((tv: any) => {
           return (
             <SwiperSlide key={tv?.id}>
@@ -57,7 +57,7 @@ const Catalogue = ({
             </SwiperSlide>
           );
         })}
-      </Slider>
+      </Slider> */}
     </div>
   );
 };

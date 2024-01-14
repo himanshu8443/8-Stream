@@ -56,8 +56,8 @@ const Stream = ({
     getStream();
   }, [opt.lang]);
   return (
-    <div className="fixed inset-0 flex justify-center items-end">
-      <div className="w-[90%] h-[90%] rounded-lg" id="player-container">
+    <div className="fixed bg-black inset-0 flex justify-center items-end">
+      <div className="w-[100%] h-[100%] rounded-lg" id="player-container">
         {url?.length > 0 ? (
           <Artplayer
             artRef={ref}
@@ -115,7 +115,7 @@ const Stream = ({
         )}
       </div>
       <div
-        className="absolute top-0 right-0 m-5 cursor-pointer"
+        className="absolute top-0 right-0 m-5 cursor-pointer z-50"
         onClick={() => {
           router.replace(`/watch/${params.type}/${params.id}}`);
         }}

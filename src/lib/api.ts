@@ -142,7 +142,7 @@ export async function search(query: string) {
     const filteredData = data.results.filter(
       (item: any) => item.media_type === "tv" || item.media_type === "movie"
     );
-    return filteredData.slice(0, 10);
+    return filteredData;
   } catch (error) {
     console.log(error);
   }

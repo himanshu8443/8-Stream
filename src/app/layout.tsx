@@ -3,7 +3,6 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import ReduxProvider from "@/redux/provider";
 import Nav from "@/components/Navbar/Nav";
-import TopLoadingBar from "@/components/TopLoadingBar/TopLoadingBar";
 import NextTopLoader from "nextjs-toploader";
 
 const poppins = Poppins({
