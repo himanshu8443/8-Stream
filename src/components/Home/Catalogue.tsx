@@ -14,7 +14,7 @@ const Catalogue = ({
   };
 }) => {
   return (
-    <div className="flex flex-col gap-14">
+    <div className="flex flex-col max-sm:gap-2 gap-14">
       {/* Trending Movies */}
       <Slider title="Trending Movies">
         {data.tendingMovies?.results?.map((movie: any) => {

@@ -130,3 +130,20 @@ export async function getSeasonList(id: string) {
     console.log(error);
   }
 }
+
+// search
+export async function search(query: string) {
+  try {
+    const response = await fetch(
+      `https://api.themoviedb.org/3/search/multi?api_key=${process.env.TMDB_KEY}&query=${query}&include_adult=true&language=en-US&page=1`
+    );
+    const data = await response.json();
+    // media_type: "tv" | "movie"
+    const filteredData = data.results.filter(
+      (item: any) => item.media_type === "tv" || item.media_type === "movie"
+    );
+    return filteredData.slice(0, 10);
+  } catch (error) {
+    console.log(error);
+  }
+}
