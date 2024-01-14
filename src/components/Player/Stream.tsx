@@ -56,7 +56,7 @@ const Stream = ({
     getStream();
   }, [opt.lang]);
   return (
-    <div className="fixed bg-black inset-0 flex justify-center items-end">
+    <div className="fixed bg-black inset-0 flex justify-center items-end z-[200]">
       <div className="w-[100%] h-[100%] rounded-lg" id="player-container">
         {url?.length > 0 ? (
           <Artplayer
