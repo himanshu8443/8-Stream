@@ -114,12 +114,12 @@ const Seasons = ({
                     </div>
                   </div>
                   <div className="flex flex-1 flex-col gap-2">
-                    <h1 className="text-white text-xl font-medium">
+                    <h1 className="text-white max-sm:text-sm text-xl font-medium">
                       {episode?.episode_number}. {episode?.name}
                     </h1>
-                    <h1 className="text-white text-xs font-medium">
-                      {episode?.overview?.length > 150
-                        ? episode?.overview?.slice(0, 150) + "..."
+                    <h1 className="text-white text-xs max-sm:text-[9px] font-medium">
+                      {episode?.overview?.length > 100
+                        ? episode?.overview?.slice(0, 100) + "..."
                         : episode?.overview}
                     </h1>
                   </div>

@@ -12,7 +12,7 @@ const Nav = () => {
           alt="logo"
           width={400}
           height={300}
-          className="object-contain max-sm:w-[120px] w-[180px] h-[50px]"
+          className="object-contain w-[180px] h-[50px]"
         />
       </Link>
       <Search />

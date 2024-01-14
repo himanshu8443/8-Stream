@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
-import { useAppDispatch } from "@/lib/hook";
-import { toggleEpModal } from "@/redux/slices/epModal";
+import { useAppDispatch, useAppSelector } from "@/lib/hook";
+import epModal, { toggleEpModal } from "@/redux/slices/epModal";
 import play from "@/assets/play.svg";
 import { useEffect, useState } from "react";
 import { setLang, setSeasonInfo } from "@/redux/slices/options";
@@ -23,6 +23,7 @@ const PlayButton = ({
   const dispatch = useAppDispatch();
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
+  const seasonModal = useAppSelector((state) => state.epModal.epModal);
   useEffect(() => {
     async function getMedia() {
       setLoading(true);
@@ -55,35 +56,37 @@ const PlayButton = ({
     );
   }
   return (
-    <div className="">
-      <button
-        className="flex justify-center items-center gap-3 cursor-pointer group bg-white rounded-lg 
+    !seasonModal && (
+      <div className="">
+        <button
+          className="flex justify-center items-center gap-3 cursor-pointer group bg-white rounded-lg 
         px-3 py-0 bg-opacity-20 hover:scale-105 duration-200 backdrop-blur-sm max-sm:w-[350px] max-sm:justify-between"
-        disabled={loading}
-        onClick={() => {
-          if (type === "movie") {
-            router.push(`/watch/${type}/${tmdbId}/${imdbId}`);
-          } else {
-            dispatch(toggleEpModal(true));
-          }
-        }}
-      >
-        <p className="text-white text-4xl font-extrabold">Play</p>
-        {loading ? (
-          <div className="flex justify-center items-center h-[100px] w-[100px]">
-            <div className="mediaLoader"></div>
-          </div>
-        ) : (
-          <Image
-            src={play}
-            width={100}
-            height={100}
-            alt="play"
-            className="group-hover:scale-105 group-active:scale-100 transition-all duration-300"
-          />
-        )}
-      </button>
-    </div>
+          disabled={loading}
+          onClick={() => {
+            if (type === "movie") {
+              router.push(`/watch/${type}/${tmdbId}/${imdbId}`);
+            } else {
+              dispatch(toggleEpModal(true));
+            }
+          }}
+        >
+          <p className="text-white text-4xl font-extrabold">Play</p>
+          {loading ? (
+            <div className="flex justify-center items-center h-[100px] w-[100px]">
+              <div className="mediaLoader"></div>
+            </div>
+          ) : (
+            <Image
+              src={play}
+              width={100}
+              height={100}
+              alt="play"
+              className="group-hover:scale-105 group-active:scale-100 transition-all duration-300"
+            />
+          )}
+        </button>
+      </div>
+    )
   );
 };
 
