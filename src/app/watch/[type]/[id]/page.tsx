@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import { getEpisodes } from "@/lib/api";
 import PlayButton from "@/components/Watch/PlayButton";
 import { getSeasonList } from "@/lib/api";
+import type { Metadata } from "next";
 
 async function getData(id: string, type: string) {
   try {
@@ -145,3 +146,17 @@ const page = async ({ params }: { params: { id: string; type: string } }) => {
 };
 
 export default page;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string; type: string };
+}): Promise<Metadata> {
+  const data = await getData(params.id, params.type);
+  return {
+    title: data.details?.title,
+    description: `watch ${data.details?.title} free online ${data.details?.overview}`,
+    keywords: data.details?.genres?.map((genre: any) => genre?.name),
+    category: data.details?.genres?.map((genre: any) => genre?.name),
+  };
+}

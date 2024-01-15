@@ -1,5 +1,6 @@
 import Catalogue from "@/components/Home/Catalogue";
 import Hero from "@/components/Home/Hero";
+import type { Metadata } from "next";
 
 async function getData() {
   try {
@@ -50,4 +51,14 @@ export default async function Page() {
       <Catalogue data={data} />
     </main>
   );
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const data = await getData();
+  return {
+    title: "8 Stream",
+    description: "Watch Movies and TV Shows Online For Free",
+    keywords: data.tendingMovies?.results?.map((item: any) => item?.title),
+    category: "Entertainment",
+  };
 }
