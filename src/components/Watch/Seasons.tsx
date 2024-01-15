@@ -31,7 +31,7 @@ const Seasons = ({
   useEffect(() => {
     async function getSeasons() {
       const data = await getEpisodes(id.tmdb, season);
-      setEpisodes(data);
+      setEpisodes(data?.filter((item: any) => item?.still_path !== null));
     }
     getSeasons();
   }, [id, season]);
@@ -62,7 +62,7 @@ const Seasons = ({
                     className="px-1 bg-gray-900 text-center  hover:bg-gray-600 rounded-lg"
                     value={i + 1}
                   >
-                    {item?.season}
+                    Season {i + 1}
                   </option>
                 );
               })}

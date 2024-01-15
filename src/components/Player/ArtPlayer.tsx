@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import Artplayer from "artplayer";
 import { type Option } from "artplayer/types/option";
 import artplayerPluginHlsQuality from "artplayer-plugin-hls-quality";
@@ -8,11 +8,13 @@ export default function Player({
   option,
   getInstance,
   artRef,
+  sub,
   ...rest
 }: {
   option: Option;
   getInstance?: (art: Artplayer) => void;
   artRef: any;
+  sub?: any;
   [key: string]: any;
 }) {
   useEffect(() => {
@@ -65,7 +67,6 @@ export default function Player({
     if (getInstance && typeof getInstance === "function") {
       getInstance(art);
     }
-
     art.events.proxy(document, "keypress", (event: any) => {
       // Check if the focus is on an input field or textarea
       const isInputFocused =
@@ -82,20 +83,40 @@ export default function Player({
     });
 
     art.controls.remove("playAndPause");
+    if (sub?.length > 0) {
+      art.controls.add({
+        name: "subtitle",
+        position: "right",
+        html: `subtitle`,
+        selector: [
+          {
+            default: true,
+            html: `off`,
+            value: "",
+          },
+          ...sub.map((item: any, i: number) => {
+            return {
+              html: `<div>${item.lang}</div>`,
+              value: item?.url,
+            };
+          }),
+        ],
+        onSelect: function (item, $dom) {
+          // @ts-ignore
+          art.subtitle.switch(item.value);
+          return item.html;
+        },
+      });
+    }
     art.controls.update({
       name: "volume",
       position: "right",
     });
     console.log("controls", art.controls);
-    art.controls.update({
-      name: "time",
-      style: {
-        left: "300px",
-      },
-    });
     return () => {
       if (art && art.destroy) {
         art.destroy(false);
+        art?.hls?.destroy();
       }
     };
   }, []);

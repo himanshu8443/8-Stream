@@ -4,9 +4,10 @@ import { useAppDispatch, useAppSelector } from "@/lib/hook";
 import epModal, { toggleEpModal } from "@/redux/slices/epModal";
 import play from "@/assets/play.svg";
 import { useEffect, useState } from "react";
-import { setLang, setSeasonInfo } from "@/redux/slices/options";
+import { setSeasonInfo } from "@/redux/slices/options";
 import { useRouter } from "next/navigation";
 import { IoIosInformationCircleOutline } from "react-icons/io";
+import { getConsumetMediaInfo } from "@/lib/consumetApi";
 
 const PlayButton = ({
   getSeasonList,
@@ -24,23 +25,43 @@ const PlayButton = ({
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
   const seasonModal = useAppSelector((state) => state.epModal.epModal);
+  const provider = useAppSelector((state) => state.options.api);
   useEffect(() => {
+    // 8stream info
     async function getMedia() {
       setLoading(true);
+      if (type === "movie") {
+        dispatch(toggleEpModal(false));
+      }
       const data = await getSeasonList(imdbId);
       if (data?.success) {
         dispatch(setSeasonInfo(data?.data?.seasons));
         // console.log("Sinfo", data);
-        dispatch(setLang(data?.data?.seasons?.[0].lang[0]));
-        console.log(data?.data?.seasons?.[0].lang[0]);
         setLoading(false);
       } else {
         console.log(imdbId);
         setError(true);
       }
     }
-    getMedia();
-  }, []);
+    // consumet info
+    async function getConsumet() {
+      setLoading(true);
+      const data = await getConsumetMediaInfo(tmdbId, type);
+      if (data?.success) {
+        dispatch(setSeasonInfo(data?.data?.seasons));
+      } else {
+        setError(true);
+      }
+      setLoading(false);
+    }
+    if (provider === "8stream") {
+      setError(false);
+      getMedia();
+    } else {
+      setError(false);
+      getConsumet();
+    }
+  }, [provider]);
 
   if (error) {
     return (
@@ -60,7 +81,7 @@ const PlayButton = ({
       <div className="">
         <button
           className="flex justify-center items-center gap-3 cursor-pointer group bg-white rounded-lg 
-        px-3 py-0 bg-opacity-20 hover:scale-105 duration-200 backdrop-blur-sm max-sm:w-[350px] max-sm:justify-between"
+        px-3 py-0 bg-opacity-20 duration-200 backdrop-blur-sm max-sm:w-[350px] max-sm:justify-between"
           disabled={loading}
           onClick={() => {
             if (type === "movie") {
@@ -81,7 +102,7 @@ const PlayButton = ({
               width={100}
               height={100}
               alt="play"
-              className="group-hover:scale-105 group-active:scale-100 transition-all duration-300"
+              className="group-hover:scale-110 group-active:scale-100 transition-all duration-300"
             />
           )}
         </button>

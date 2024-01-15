@@ -12,7 +12,6 @@ const Search = () => {
   const searchMovies = async () => {
     const res = await search(query);
     setResults(res);
-    console.log(res);
   };
 
   useEffect(() => {

@@ -1,12 +1,11 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Artplayer from "./ArtPlayer";
-import { useAppSelector, useAppDispatch } from "@/lib/hook";
+import { useAppDispatch, useAppSelector } from "@/lib/hook";
 import { CgClose } from "react-icons/cg";
-import { togglePlayer } from "@/redux/slices/epModal";
 import { playEpisode, playMovie } from "@/lib/api";
 import { useSearchParams, useRouter } from "next/navigation";
-import { setLang } from "@/redux/slices/options";
+import { consumetPlay } from "@/lib/consumetApi";
 
 const Stream = ({
   params,
@@ -18,20 +17,24 @@ const Stream = ({
   const season = searchParams.get("season");
   const episode = searchParams.get("episode");
   const dispatch = useAppDispatch();
-  const [url, setUrl] = React.useState<string>("");
+  const [url, setUrl] = useState<string>("");
   const ref = React.useRef<any>();
-  const [art, setArt] = React.useState<any>();
-  const opt = useAppSelector((state) => state.options);
-  const seasonInfo = useAppSelector((state) => state.options.seasonInfo);
-  console.log(seasonInfo);
+  const [art, setArt] = useState<any>();
+  const [availableLang, setAvailableLang] = useState<any>([""]);
+  const [currentLang, setCurrentLang] = useState<any>("");
+  const [sub, setSub] = useState<any>([]);
+
+  const provider = useAppSelector((state) => state.options.api);
+
   useEffect(() => {
-    async function getStream() {
+    async function get8Stream() {
       if (params.type === "movie") {
-        const data = await playMovie(params.imdb, opt.lang);
+        const data = await playMovie(params.imdb, currentLang);
         console.log(data);
         if (data?.success && data?.data?.link?.length > 0) {
           art?.switchUrl(data?.data?.link);
           setUrl(data?.data?.link);
+          setAvailableLang(data?.availableLang);
         } else {
           router.back();
         }
@@ -40,27 +43,46 @@ const Stream = ({
           params.imdb,
           parseInt(season as string),
           parseInt(episode as string),
-          opt.lang
+          currentLang
         );
         console.log(data);
         if (data?.success && data?.data?.link?.length > 0) {
           setUrl(data?.data?.link);
-          console.log("art", art?.switchUrl);
+          setAvailableLang(data?.availableLang);
           art?.switchUrl(data?.data?.link);
-          console.log("art", art?.playbackRate);
         } else {
-          dispatch(togglePlayer(false));
+          router.back();
         }
       }
     }
-    getStream();
-  }, [opt.lang]);
+    async function getConsumet() {
+      const data = await consumetPlay(
+        params.id,
+        params.type,
+        parseInt(episode as string),
+        parseInt(season as string)
+      );
+      console.log(data);
+      if (data?.success && data?.data?.sources?.length > 0) {
+        setUrl(data?.data?.sources[data?.data?.sources.length - 1]?.url);
+        setSub(data?.data?.subtitles);
+      } else {
+        router.back();
+      }
+    }
+    if (provider === "8stream") {
+      get8Stream();
+    } else {
+      getConsumet();
+    }
+  }, [currentLang]);
   return (
     <div className="fixed bg-black inset-0 flex justify-center items-end z-[200]">
       <div className="w-[100%] h-[100%] rounded-lg" id="player-container">
         {url?.length > 0 ? (
           <Artplayer
             artRef={ref}
+            sub={sub}
             style={{ width: "100%", height: "100%", aspectRatio: "16/9" }}
             option={{
               container: "#player-container",
@@ -71,10 +93,10 @@ const Stream = ({
                 {
                   name: "Lang",
                   position: "right",
-                  index: 5,
-                  html: `<p >${opt.lang}</p>`,
+                  index: 10,
+                  html: `<p >${availableLang[0]}</p>`,
                   selector: [
-                    ...seasonInfo[0]?.lang?.map((item: any, i: number) => {
+                    ...availableLang.map((item: any, i: number) => {
                       return {
                         default: i === 0,
                         html: `<p ">${item}</p>`,
@@ -84,13 +106,27 @@ const Stream = ({
                   ],
                   onSelect: function (item, $dom) {
                     // @ts-ignore
-                    dispatch(setLang(item.value));
+                    setCurrentLang(item.value);
                     return item.html;
                   },
                 },
               ],
               playbackRate: true,
               fullscreen: true,
+              subtitleOffset: true,
+              subtitle: {
+                type: "vtt",
+                encoding: "utf-8",
+                escape: true,
+                style: {
+                  color: "#fff",
+                  // @ts-ignore
+                  "font-size": "48px",
+                  "font-family": "sans-serif",
+                  "text-shadow":
+                    "-3px 3px 4px rgba(0, 0, 0, 1),2px 2px 4px rgba(0, 0, 0, 1),1px -1px 3px rgba(0, 0, 0, 1),-3px -2px 4px rgba(0, 0, 0, 1)",
+                },
+              },
               lock: true,
               fastForward: true,
               cssVar: {
@@ -99,7 +135,7 @@ const Stream = ({
                 "--art-bottom-gap": "25px",
                 "--art-control-icon-scale": 1.7,
                 "--art-padding": "10px 30px",
-                "--art-control-icon-size": "60px",
+                // "--art-control-icon-size": "60px",
                 "--art-volume-handle-size": "20px",
                 "--art-volume-height": "150px",
               },

@@ -3,13 +3,15 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState: {
   season: number;
   api: string;
-  lang: string;
   seasonInfo: any;
 } = {
   season: 1,
   api: "8stream",
-  lang: "",
-  seasonInfo: [{}, {}],
+  seasonInfo: [
+    {
+      lang: [],
+    },
+  ],
 };
 const optionsSlice = createSlice({
   name: "options",
@@ -21,16 +23,12 @@ const optionsSlice = createSlice({
     setApi: (state, action) => {
       state.api = action.payload;
     },
-    setLang: (state, action) => {
-      state.lang = action.payload;
-    },
     setSeasonInfo: (state, action) => {
       state.seasonInfo = action.payload;
     },
   },
 });
 
-export const { setSeason, setApi, setLang, setSeasonInfo } =
-  optionsSlice.actions;
+export const { setSeason, setApi, setSeasonInfo } = optionsSlice.actions;
 
 export default optionsSlice.reducer;

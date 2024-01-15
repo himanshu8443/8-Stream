@@ -1,5 +1,8 @@
 "use server";
 
+// ----------------- TMDB -----------------//
+
+// episodes list by season
 export async function getEpisodes(id: string, season: number) {
   try {
     const response = await fetch(
@@ -11,6 +14,25 @@ export async function getEpisodes(id: string, season: number) {
     console.log(error);
   }
 }
+
+// search
+export async function search(query: string) {
+  try {
+    const response = await fetch(
+      `https://api.themoviedb.org/3/search/multi?api_key=${process.env.TMDB_KEY}&query=${query}&include_adult=true&language=en-US&page=1`
+    );
+    const data = await response.json();
+    // media_type: "tv" | "movie"
+    const filteredData = data.results.filter(
+      (item: any) => item.media_type === "tv" || item.media_type === "movie"
+    );
+    return filteredData;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// ----------------- 8stream -----------------//
 
 // get stream url
 export async function getStreamUrl(file: string, key: string) {
@@ -56,14 +78,18 @@ export async function playMovie(id: string, lang: string) {
     const mediaInfo = await getMediaInfo(id);
     if (mediaInfo?.success) {
       const playlist = mediaInfo?.data?.playlist;
-      const file = playlist.find((item: any) => item?.title === lang);
+      let file = playlist.find((item: any) => item?.title === lang);
+      if (!file) {
+        file = playlist?.[0];
+      }
       if (!file) {
         return { success: false, error: "No file found" };
       }
+      const availableLang = playlist.map((item: any) => item?.title);
       const key = mediaInfo?.data?.key;
       const streamUrl = await getStreamUrl(file?.file, key);
       if (streamUrl?.success) {
-        return { success: true, data: streamUrl?.data };
+        return { success: true, data: streamUrl?.data, availableLang };
       } else {
         return { success: false, error: "No stream url found" };
       }
@@ -101,14 +127,25 @@ export async function playEpisode(
     if (!getEpisode) {
       return { success: false, error: "No episode found" };
     }
-    const file = getEpisode?.folder.find((item: any) => item?.title === lang);
+    let file = getEpisode?.folder.find((item: any) => item?.title === lang);
+    if (!file) {
+      file = getEpisode?.folder?.[0];
+    }
     if (!file) {
       return { success: false, error: "No file found" };
     }
+    const availableLang = getEpisode?.folder.map((item: any) => {
+      return item?.title;
+    });
+    const filterLang = availableLang.filter((item: any) => item?.length > 0);
     const key = mediaInfo?.data?.key;
     const streamUrl = await getStreamUrl(file?.file, key);
     if (streamUrl?.success) {
-      return { success: true, data: streamUrl?.data };
+      return {
+        success: true,
+        data: streamUrl?.data,
+        availableLang: filterLang,
+      };
     } else {
       return { success: false, error: "No stream url found" };
     }
@@ -126,23 +163,6 @@ export async function getSeasonList(id: string) {
     );
     const data = await response.json();
     return data;
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-// search
-export async function search(query: string) {
-  try {
-    const response = await fetch(
-      `https://api.themoviedb.org/3/search/multi?api_key=${process.env.TMDB_KEY}&query=${query}&include_adult=true&language=en-US&page=1`
-    );
-    const data = await response.json();
-    // media_type: "tv" | "movie"
-    const filteredData = data.results.filter(
-      (item: any) => item.media_type === "tv" || item.media_type === "movie"
-    );
-    return filteredData;
   } catch (error) {
     console.log(error);
   }
