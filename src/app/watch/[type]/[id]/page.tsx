@@ -105,7 +105,7 @@ const page = async ({ params }: { params: { id: string; type: string } }) => {
               return (
                 <p
                   key={genre?.id}
-                  className=" cursor-pointer bg-white/30 bg-opacity-100 backdrop-blur-lg  px-2 py-1 text-sm text-white font-medium rounded-full"
+                  className=" cursor-pointer bg-white/30 bg-opacity-100 backdrop-blur-lg  px-2 py-1 text-sm text-white font-medium rounded-full max-sm:text-xs"
                 >
                   {genre?.name}
                 </p>

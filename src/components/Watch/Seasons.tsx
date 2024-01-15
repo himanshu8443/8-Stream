@@ -7,6 +7,7 @@ import Image from "next/image";
 import { IoPlay } from "react-icons/io5";
 import { setSeason } from "@/redux/slices/options";
 import { useRouter } from "next/navigation";
+import { FaChevronDown } from "react-icons/fa6";
 
 const Seasons = ({
   id,
@@ -48,7 +49,7 @@ const Seasons = ({
       flex flex-col gap-3 rounded-t-lg"
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="flex justify-start items-center gap-5">
+          <div className="flex justify-between items-center gap-5">
             {/* seasons */}
             <select
               className="bg-white/20 backdrop-blur-lg rounded-lg px-2 py-1 text-sm text-white font-medium styled-select outline-none"
@@ -67,6 +68,15 @@ const Seasons = ({
                 );
               })}
             </select>
+            {/* close button */}
+            <div
+              className="flex justify-center items-center bg-white bg-opacity-20 backdrop-blur-sm rounded-lg px-3 py-2 cursor-pointer hover:bg-opacity-30"
+              onClick={() => {
+                dispatch(toggleEpModal(false));
+              }}
+            >
+              <FaChevronDown className="text-white text-base" />
+            </div>
           </div>
           <div className="flex flex-col gap-3 pr-1 overflow-y-scroll">
             {episodes

@@ -20,6 +20,35 @@ export default function Player({
   useEffect(() => {
     const art = new Artplayer({
       ...option,
+      settings: [
+        {
+          html: "Font size",
+          tooltip: "medium",
+          name: "fontSize",
+          selector: [
+            {
+              html: "small",
+              value: "20px",
+            },
+            {
+              html: "medium",
+              default: true,
+              value: "35px",
+            },
+            {
+              html: "large",
+              value: "48px",
+            },
+          ],
+          onSelect: function (item) {
+            art.subtitle.style({
+              //@ts-ignore
+              "font-size": item.value,
+            });
+            return item.html;
+          },
+        },
+      ],
       container: artRef.current!,
       plugins: [
         artplayerPluginHlsQuality({

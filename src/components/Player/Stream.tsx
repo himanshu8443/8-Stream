@@ -6,6 +6,7 @@ import { CgClose } from "react-icons/cg";
 import { playEpisode, playMovie } from "@/lib/api";
 import { useSearchParams, useRouter } from "next/navigation";
 import { consumetPlay } from "@/lib/consumetApi";
+import { toast } from "react-toastify";
 
 const Stream = ({
   params,
@@ -30,13 +31,22 @@ const Stream = ({
     async function get8Stream() {
       if (params.type === "movie") {
         const data = await playMovie(params.imdb, currentLang);
-        console.log(data);
+        // console.log(data);
         if (data?.success && data?.data?.link?.length > 0) {
           art?.switchUrl(data?.data?.link);
           setUrl(data?.data?.link);
           setAvailableLang(data?.availableLang);
         } else {
-          router.back();
+          toast.error("No link found", {
+            position: "top-right",
+            autoClose: 1000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
         }
       } else {
         const data = await playEpisode(
@@ -45,13 +55,22 @@ const Stream = ({
           parseInt(episode as string),
           currentLang
         );
-        console.log(data);
+        // console.log(data);
         if (data?.success && data?.data?.link?.length > 0) {
           setUrl(data?.data?.link);
           setAvailableLang(data?.availableLang);
           art?.switchUrl(data?.data?.link);
         } else {
-          router.back();
+          toast.error("No link found", {
+            position: "top-right",
+            autoClose: 1000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
         }
       }
     }
@@ -67,7 +86,16 @@ const Stream = ({
         setUrl(data?.data?.sources[data?.data?.sources.length - 1]?.url);
         setSub(data?.data?.subtitles);
       } else {
-        router.back();
+        toast.error("No link found", {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
       }
     }
     if (provider === "8stream") {
@@ -116,12 +144,11 @@ const Stream = ({
               subtitleOffset: true,
               subtitle: {
                 type: "vtt",
-                encoding: "utf-8",
-                escape: true,
+                escape: false,
                 style: {
                   color: "#fff",
                   // @ts-ignore
-                  "font-size": "48px",
+                  "font-size": "35px",
                   "font-family": "sans-serif",
                   "text-shadow":
                     "-3px 3px 4px rgba(0, 0, 0, 1),2px 2px 4px rgba(0, 0, 0, 1),1px -1px 3px rgba(0, 0, 0, 1),-3px -2px 4px rgba(0, 0, 0, 1)",

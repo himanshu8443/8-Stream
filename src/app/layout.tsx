@@ -4,6 +4,8 @@ import "./globals.css";
 import ReduxProvider from "@/redux/provider";
 import Nav from "@/components/Navbar/Nav";
 import NextTopLoader from "nextjs-toploader";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -36,6 +38,7 @@ export default function RootLayout({
             speed={200}
             shadow="0 0 10px #2299DD,0 0 5px #2299DD"
           />
+          <ToastContainer />
           <Nav />
           {children}
         </ReduxProvider>
