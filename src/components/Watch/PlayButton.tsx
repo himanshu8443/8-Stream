@@ -28,6 +28,8 @@ const PlayButton = ({
   const provider = useAppSelector((state) => state.options.api);
   useEffect(() => {
     // 8stream info
+    console.log("provider", provider);
+
     async function getMedia() {
       setLoading(true);
       if (type === "movie") {
@@ -39,7 +41,6 @@ const PlayButton = ({
         // console.log("Sinfo", data);
         setLoading(false);
       } else {
-        console.log(imdbId);
         setError(true);
       }
     }

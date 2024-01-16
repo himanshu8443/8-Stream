@@ -1,25 +1,12 @@
 "use client";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
 import { setApi } from "@/redux/slices/options";
-import { useEffect, useLayoutEffect } from "react";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 
 const Options = () => {
   const api = useAppSelector((state) => state.options.api);
   const dispatch = useAppDispatch();
 
-  useLayoutEffect(() => {
-    const api = localStorage.getItem("api");
-    console.log(api);
-    if (api) {
-      dispatch(setApi(api));
-    }
-  }, []);
-
-  useLayoutEffect(() => {
-    localStorage.setItem("api", api);
-    console.log(api);
-  }, [api]);
   return (
     <div className="flex flex-col gap-2">
       <div className="bg-[#0f0f0f] rounded-lg w-fit px-3 py-2">
@@ -28,7 +15,9 @@ const Options = () => {
           <select
             className="bg-white/20 backdrop-blur-lg rounded-lg px-2 py-1 text-sm text-white font-medium styled-select outline-none"
             value={api}
-            onChange={(e) => dispatch(setApi(e.target.value))}
+            onChange={(e) => {
+              dispatch(setApi(e.target.value));
+            }}
           >
             <option
               className="px-1 bg-gray-900 text-center  hover:bg-gray-600 rounded-lg"
