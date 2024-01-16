@@ -6,6 +6,7 @@ import Nav from "@/components/Navbar/Nav";
 import NextTopLoader from "nextjs-toploader";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Analytics } from "@vercel/analytics/react";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -41,6 +42,7 @@ export default function RootLayout({
           <ToastContainer />
           <Nav />
           {children}
+          <Analytics />
         </ReduxProvider>
       </body>
     </html>
