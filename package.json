@@ -11,6 +11,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^2.0.1",
     "@vercel/analytics": "^1.1.1",
+    "@vercel/speed-insights": "^1.0.4",
     "artplayer": "^5.1.0",
     "artplayer-plugin-hls-quality": "^2.0.0",
     "hls.js": "^1.4.14",
