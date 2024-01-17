@@ -96,6 +96,7 @@ const Seasons = ({
                   >
                     <div className="relative">
                       <Image
+                        unoptimized={true}
                         src={`https://image.tmdb.org/t/p/original${episode?.still_path}`}
                         alt={episode?.name}
                         width={200}

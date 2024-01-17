@@ -45,13 +45,14 @@ const page = async ({ params }: { params: { id: string; type: string } }) => {
   return (
     <div className=" overflow-hidden h-full max-sm:h-screen relative">
       <Image
+        unoptimized={true}
         priority={true}
         src={`https://image.tmdb.org/t/p/original${
           filteredImages?.[
             Math.floor(Math.random() * (filteredImages?.length || 0))
           ]?.file_path
         }`}
-        alt={data.details?.title}
+        alt={"title"}
         width={1920}
         height={1080}
         className="object-cover w-full h-[500px] lg:h-[700px] absolute top-0 left-0"
@@ -63,6 +64,7 @@ const page = async ({ params }: { params: { id: string; type: string } }) => {
         <div className=" top-0 flex flex-col justify-start gap-10 z-20 ml-8 h-full">
           {data?.images?.logos?.length > 0 ? (
             <Image
+              unoptimized={true}
               src={`https://image.tmdb.org/t/p/original${data.images?.logos[0]?.file_path}`}
               alt={data.details?.title}
               width={1920}

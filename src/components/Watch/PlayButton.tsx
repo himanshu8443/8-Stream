@@ -99,6 +99,7 @@ const PlayButton = ({
             </div>
           ) : (
             <Image
+              unoptimized={true}
               src={play}
               width={100}
               height={100}

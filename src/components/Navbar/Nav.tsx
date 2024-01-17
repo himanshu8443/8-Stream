@@ -8,6 +8,7 @@ const Nav = () => {
     <div className="bg-[#02040A] w-full h-16 flex justify-between items-center px-10 py-2 pt-3 z-50">
       <Link href="/">
         <Image
+          unoptimized={true}
           src={logo}
           alt="logo"
           width={400}

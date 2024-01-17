@@ -27,6 +27,7 @@ const Hero = async ({ hero }: { hero: any }) => {
   return (
     <div className="relative flex justify-start items-center">
       <Image
+        unoptimized={true}
         className="object-cover w-full h-[500px] lg:h-[600px]"
         src={`https://image.tmdb.org/t/p/original${
           data.hero?.backdrops?.[
@@ -45,6 +46,7 @@ const Hero = async ({ hero }: { hero: any }) => {
           <div className="ml-12 ">
             {data.hero?.logos?.length > 0 ? (
               <Image
+                unoptimized={true}
                 className="object-contain w-[200px] h-[200px] lg:w-[300px] lg:h-[300px]"
                 src={`https://image.tmdb.org/t/p/original${data.hero?.logos[0]?.file_path}`}
                 alt={"hero"}
