@@ -26,6 +26,7 @@ const Options = () => {
               8 Stream
             </option>
             <option
+              disabled
               className="px-1 bg-gray-900 text-center  hover:bg-gray-600 rounded-lg "
               value="consumet"
             >
