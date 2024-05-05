@@ -16,6 +16,7 @@ const Card = ({ media }: { media: any }) => {
             </div>
           )}
           <Image
+            unoptimized={true}
             width={300}
             height={450}
             src={`https://image.tmdb.org/t/p/w300${media?.poster_path}`}
