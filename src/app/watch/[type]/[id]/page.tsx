@@ -43,7 +43,7 @@ const page = async ({ params }: { params: { id: string; type: string } }) => {
     (image: any) => image.height >= 1000
   );
   return (
-    <div className=" overflow-hidden h-full max-sm:h-screen relative">
+    <div className=" overflow-hidden relative">
       <Image
         unoptimized={true}
         priority={true}
@@ -117,7 +117,7 @@ const page = async ({ params }: { params: { id: string; type: string } }) => {
           </div>
           <Options />
         </div>
-        <div className="flex flex-col justify-end items-end flex-1 h-[500px] z-20 mr-20">
+        <div className="flex flex-col justify-end items-end flex-1 h-[500px] z-20 mr-5">
           <PlayButton
             getSeasonList={getSeasonList}
             imdbId={data?.externalIds?.imdb_id}

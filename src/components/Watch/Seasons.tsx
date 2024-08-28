@@ -52,7 +52,7 @@ const Seasons = ({
           }}
         >
           <div
-            className="bg-white bg-opacity-10 backdrop-blur-sm p-5 h-[700px] w-[700px]
+            className="bg-white bg-opacity-10 backdrop-blur-sm p-5 max-md:h-[500px] h-[700px] w-[700px]
       flex flex-col gap-3 rounded-t-lg"
             onClick={(e) => e.stopPropagation()}
           >
