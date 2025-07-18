@@ -1,6 +1,6 @@
 ![8-stream-high-resolution-logo-transparent](https://github.com/himanshu8443/HayasakaStream/assets/99420590/813cca3a-a3c3-4f40-8a79-df5b866edf68)
 
-## Watch movies and Series in multi-language online without any ads with minimal UI.
+## Not maintained now
 
 This is a free Movies/Series search engine built with Next.js and powered by the [8-StreamAPI](https://github.com/himanshu8443/8StreamApi) and [Consumet API](https://github.com/consumet/api.consumet.org).
 
